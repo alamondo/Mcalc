@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <a href="{{ url_for('add_spending') }}">Add</a>
+    <h1>Hi, {{ current_user.username }}!</h1>
+    {% for each in current_user.spending %}
+    <div>
+        {{ each.category }}:
+        {{ each.value }} zl
+    </div>
+    {% endfor %}
+{% endblock %}
