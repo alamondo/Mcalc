@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{{ record.category }}:
+{{ record.value }} zl
+{{ record.note }}
+
+<a href="{{ url_for('delete', record_id=record.id) }}">
+delete
+</a>
+
+
+{% endblock %}
