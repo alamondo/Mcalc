@@ -1,5 +1,5 @@
 from app import app, db
-from app.forms import LoginForm, AddingForm, DeleteForm
+from app.forms import LoginForm, AddingForm
 from flask import render_template, flash, redirect, url_for
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Spending
@@ -13,24 +13,56 @@ from flask import Flask
 
 @app.route('/')
 def landing():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     return render_template('landing.html')
 
 
 @app.route('/index')
 @login_required
 def index():
-    return render_template('index.html', title='Home')
+
+    cat_list = []
+
+    for each in current_user.spending:
+        if not(each.category in cat_list):
+            cat_list.append(each.category)
+
+    cat_val_dict = {}
+
+    for each in cat_list:
+
+        spending_list = Spending.query.filter(Spending.user_id == current_user.id,
+                                              Spending.category == each).all()
+
+        cat_val_dict[each] = 0
+        for iterator in spending_list:
+            cat_val_dict[each] += iterator.value
+
+    return render_template('index.html', title='Home', cat_val_dict=cat_val_dict)
 
 
-@app.route('/detail/<id>')
+@app.route('/all')
+@login_required
+def all():
+    return render_template('all.html', title='Home',
+                           user_spending=current_user.spending.order_by(Spending.timestamp.desc()))
+
+
+@app.route('/detail/<record_id>', methods=['GET', 'POST'])
 @login_required
 def detail(record_id):
-    form = DeleteForm()
-    if form.validate_on_submit():
-        record_to_delete = Spending.query.get(record_id)
-        db.session.delete(record_to_delete)
-        db.session.commit()
-    return render_template('detail.html', title='Home', record=Spending.query.get(record_id), form=form)
+    return render_template('detail.html', title='Home',
+                           record=Spending.query.get(record_id))
+
+
+@app.route('/delete/<record_id>')
+@login_required
+def delete(record_id):
+    record_to_delete = Spending.query.get(record_id)
+    db.session.delete(record_to_delete)
+    db.session.commit()
+    return redirect(url_for('all'))
 
 
 @app.route('/add', methods=['GET', 'POST'])

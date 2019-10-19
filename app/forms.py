@@ -15,8 +15,3 @@ class AddingForm(FlaskForm):
     value = StringField('Value', validators=[DataRequired()])
     category = StringField('Category')
     submit = SubmitField('Add')
-
-
-class DeleteForm(FlaskForm):
-    submit = SubmitField('Delete')
-
