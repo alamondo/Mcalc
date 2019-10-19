@@ -6,9 +6,9 @@
     {% for each in user_spending %}
     <div>
         <a href="{{ url_for('detail', record_id=each.id) }}">
-        {{ each.timestamp }}
         {{ each.category }}:
         {{ each.value }} zl
+        {{ each.note }}
         </a>
     </div>
     {% endfor %}

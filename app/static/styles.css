@@ -29,16 +29,16 @@ body {
 
 .category_bar {
   background-color: black;
-  border-radius: 13px;
+  border-radius: 5px;
   width: 200px;
   padding: 3px;
 }
 
 .category_bar>div {
-  background-color: orange;
+  background-color: var(--font-color);
   width: 40%;
   height: 20px;
-  border-radius: 10px;
+  border-radius: 2px;
 }
 a:link {
   color: var(--font-color);

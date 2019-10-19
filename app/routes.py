@@ -42,30 +42,34 @@ def index():
             cat_val_dict[each] += iterator.value
             valsum += iterator.value
 
+    cat_val_dict = dict(sorted(cat_val_dict.items(), key=lambda x: x[1], reverse=True))
+
     return render_template('index.html', title='Home', cat_val_dict=cat_val_dict, valsum=valsum)
 
 
 @app.route('/all')
 @login_required
-def all():
+def all_records():
     return render_template('all.html', title='Home',
                            user_spending=current_user.spending.order_by(Spending.timestamp.desc()))
 
 
-@app.route('/detail/<record_id>', methods=['GET', 'POST'])
+@app.route('/<record_id>', methods=['GET', 'POST'])
 @login_required
 def detail(record_id):
     return render_template('detail.html', title='Home',
                            record=Spending.query.get(record_id))
 
 
-@app.route('/<category>', methods=['GET', 'POST'])
+@app.route('/<category>')
 @login_required
 def cat_detail(category):
     cat_spending = Spending.query.filter(Spending.user_id == current_user.id,
                                          Spending.category == category).all()
-    return render_template('cat_detail.html', title='Home',
-                           category_list=cat_spending, category_name=category)
+    print('a')
+    # return render_template('cat_detail.html', title='Home',
+    #                        category_list=cat_spending, category_name=category)
+    render_template('all.html')
 
 
 @app.route('/delete/<record_id>')
