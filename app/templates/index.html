@@ -4,9 +4,14 @@
     <a href="{{ url_for('add_spending') }}">Add</a>
     <h1>Hi, {{ current_user.username }}!</h1>
     {% for cat, val in cat_val_dict.items() %}
-    <div>
+    <a href="{{ url_for('cat_detail', category=cat) }}">
+        <div class="category_bar">
+            <div style="width: {{ val / valsum * 100}}%">
+            </div>
+        </div>
         {{ cat }}:
         {{ val }} zl
-    </div>
+
+    </a>
     {% endfor %}
 {% endblock %}

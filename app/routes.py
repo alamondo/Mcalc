@@ -30,6 +30,8 @@ def index():
 
     cat_val_dict = {}
 
+    valsum = 0
+
     for each in cat_list:
 
         spending_list = Spending.query.filter(Spending.user_id == current_user.id,
@@ -38,8 +40,9 @@ def index():
         cat_val_dict[each] = 0
         for iterator in spending_list:
             cat_val_dict[each] += iterator.value
+            valsum += iterator.value
 
-    return render_template('index.html', title='Home', cat_val_dict=cat_val_dict)
+    return render_template('index.html', title='Home', cat_val_dict=cat_val_dict, valsum=valsum)
 
 
 @app.route('/all')
@@ -54,6 +57,15 @@ def all():
 def detail(record_id):
     return render_template('detail.html', title='Home',
                            record=Spending.query.get(record_id))
+
+
+@app.route('/<category>', methods=['GET', 'POST'])
+@login_required
+def cat_detail(category):
+    cat_spending = Spending.query.filter(Spending.user_id == current_user.id,
+                                         Spending.category == category).all()
+    return render_template('cat_detail.html', title='Home',
+                           category_list=cat_spending, category_name=category)
 
 
 @app.route('/delete/<record_id>')
