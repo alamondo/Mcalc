@@ -1,5 +1,5 @@
 from app import app, db
-from app.forms import LoginForm, AddingForm
+from app.forms import LoginForm, AddingForm, DeleteForm
 from flask import render_template, flash, redirect, url_for
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Spending
@@ -22,12 +22,24 @@ def index():
     return render_template('index.html', title='Home')
 
 
+@app.route('/detail/<id>')
+@login_required
+def detail(record_id):
+    form = DeleteForm()
+    if form.validate_on_submit():
+        record_to_delete = Spending.query.get(record_id)
+        db.session.delete(record_to_delete)
+        db.session.commit()
+    return render_template('detail.html', title='Home', record=Spending.query.get(record_id), form=form)
+
+
 @app.route('/add', methods=['GET', 'POST'])
 @login_required
 def add_spending():
     form = AddingForm()
     if form.validate_on_submit():
-        spend = Spending(user_id=current_user.id, note=form.note.data, category=form.category.data, value=float(form.value.data))
+        spend = Spending(user_id=current_user.id, note=form.note.data,
+                         category=form.category.data, value=float(form.value.data))
         db.session.add(spend)
         db.session.commit()
         return redirect(url_for('index'))
