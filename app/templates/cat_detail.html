@@ -2,17 +2,18 @@
 
 {% block content %}
 
-<h1>{{ category_name }}</h1>
+    <h1>{{ category_name }}</h1>
 
-{% for record in category_list %}
-{% if record != None %}
-<a href="{{ url_for('detail', record_id=record.id) }}">
-{{ record.timestamp.strftime("%d %B %H:%M") }}:
-{{ '{:.2f} zł'.format(record.value) }}
-{{ record.note }}
-</a>
+    {% for record in category_list %}
+        {% if record != None %}
 
-<hr>
-{% endif %}
-{% endfor %}
+            <a href="{{ url_for('detail', record_id=record.id) }}">
+                {{ record.timestamp.strftime("%d %B %H:%M") }}:
+                {{ '{:.2f} zł'.format(record.value) }}
+                {{ record.note }}
+            </a>
+
+            <hr>
+        {% endif %}
+    {% endfor %}
 {% endblock %}

@@ -1,9 +1,9 @@
 <html>
     <head>
         {% if title %}
-        <title>{{ title }} - calc</title>
+            <title>{{ title }} - calc</title>
         {% else %}
-        <title>calc</title>
+            <title>calc</title>
         {% endif %}
         <link href="https://fonts.googleapis.com/css?family=Nunito:600&amp;display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Anton&display=swap" rel="stylesheet">
@@ -12,25 +12,43 @@
         <script src="static/scripts.js" type="text/javascript"></script>
     </head>
     <body>
-        <div style="box-shadow: 2px 2px 3px #999;">
-            <a href="{{ url_for('index') }}">Home</a>
-            <a href="{{ url_for('all_records') }}">All</a>
+        <div style="/*box-shadow: 2px 2px 3px #999;*/
+                    display: grid;grid-template-columns: 1fr 1fr 1fr;
+                    height: 2em;">
+            <a href="{{ url_for('index') }}">
+                <div class="menu_button">
+                Home
+                </div>
+            </a>
+            <a href="{{ url_for('all_records') }}">
+                <div class="menu_button">
+                All
+                </div>
+            </a>
             {% if current_user.is_anonymous %}
-            <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('login') }}">
+                    <div class="menu_button">
+                        Login
+                    </div>
+                </a>
             {% else %}
-            <a href="{{ url_for('logout') }}">Logout</a>
+                <a href="{{ url_for('logout') }}">
+                    <div class="menu_button">
+                        Logout
+                    </div>
+                </a>
             {% endif %}
         </div>
-<!--        <hr>-->
         {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div style="color: red;width: 100%;text-align: center;">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
         {% endwith %}
-        {% block content %}{% endblock %}
+
+        {% block content %}
+
+        {% endblock %}
     </body>
 </html>

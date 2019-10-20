@@ -231,3 +231,12 @@ a:hover {
 .activated{
   background: #999;
 }
+
+.menu_button{
+  background: #0c9;
+  color: white;
+  text-align: center;
+  margin: 4%;
+  border-radius: 0.4em;
+  font-size: 1.2em;
+}

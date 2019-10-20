@@ -1,19 +1,19 @@
 <div class="bar_display_container">
     {% for cat, val in cat_val_dict.items() %}
 
-    <a href="{{ url_for('cat_detail', category=cat) }}">
-        <div class="bar_pos bar_wrapper">
-            <div>{{ cat }}</div>
-            <div class="value"> {{ '{:.2f} zł'.format(val) }}</div>
-            <div style="grid-column-start: 1;grid-column-end: 3;">
-                <div class="category_bar">
-                    <div style="width: {{ val / valsum * 100}}%">
+        <a href="{{ url_for('cat_detail', category=cat) }}">
+            <div class="bar_pos bar_wrapper">
+                <div>{{ cat }}</div>
+                <div class="value"> {{ '{:.2f} zł'.format(val) }}</div>
+                <div style="grid-column-start: 1;grid-column-end: 3;">
+                    <div class="category_bar">
+                        <div style="width: {{ val / valsum * 100}}%">
 
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </a>
+        </a>
 
     {% endfor %}
 </div>
