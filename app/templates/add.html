@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Add</h1>
+    <h1 style="text-align: center;">Add</h1>
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
-        <p>
-            {{ form.value.label }}<br>
-            {{ form.value(size=32) }}<br>
+        <p class="form_label">
+            {{ form.value.label(class_="form_label") }}<br>
+            {{ form.value(class_="form_input", size=32) }}<br>
         </p>
-        <p>
-            {{ form.category.label }}<br>
-            {{ form.category(size=32) }}<br>
+        <p class="form_label">
+            {{ form.category.label(class_="form_label") }}<br>
+            {{ form.category(class_="form_input", size=32) }}<br>
         </p>
-        <p>
-            {{ form.note.label }}<br>
-            {{ form.note(size=32) }}<br>
+        <p class="form_label">
+            {{ form.note.label(class_="form_label") }}<br>
+            {{ form.note(class_="form_input", size=32) }}<br>
         </p>
-        <p>{{ form.submit() }}</p>
+        <p>{{ form.submit(class_="float add_button") }}</p>
     </form>
 {% endblock %}

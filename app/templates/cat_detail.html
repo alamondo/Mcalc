@@ -8,7 +8,7 @@
 {% if record != None %}
 <a href="{{ url_for('detail', record_id=record.id) }}">
 {{ record.timestamp.strftime("%d %B %H:%M") }}:
-{{ record.value }} zł
+{{ '{:.2f} zł'.format(record.value) }}
 {{ record.note }}
 </a>
 

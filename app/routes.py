@@ -3,6 +3,9 @@ from app.forms import LoginForm, AddingForm
 from flask import render_template, flash, redirect, url_for
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Spending
+from datetime import datetime
+from sqlalchemy import extract
+from copy import deepcopy
 from flask import request
 from werkzeug.urls import url_parse
 
@@ -21,6 +24,49 @@ def landing():
 @app.route('/index')
 @login_required
 def index():
+    return render_template('index.html', title='Home')
+
+
+@app.route('/day')
+@login_required
+def day():
+
+    cat_list = []
+
+    for each in current_user.spending:
+        if not(each.category in cat_list):
+            cat_list.append(each.category)
+
+    cat_val_dict = {}
+
+    valsum = 0
+
+    for each in cat_list:
+        spending_list = Spending.query.filter(Spending.user_id == current_user.id,
+                                              Spending.category == each,
+                                              # Spending.timestamp.date() == datetime.utcnow().date(),
+                                              extract('day', Spending.timestamp) >= datetime.today().day
+                                              ).all()
+
+        cat_val_dict[each] = 0
+        for iterator in spending_list:
+            cat_val_dict[each] += iterator.value
+            valsum += iterator.value
+
+    cat_val_dict = dict(sorted(cat_val_dict.items(), key=lambda x: x[1], reverse=True))
+
+    key_list = list(cat_val_dict.keys())
+
+    for each in key_list:
+        if cat_val_dict[each] == 0:
+            del cat_val_dict[each]
+
+    return render_template('bars.html', title='Home', cat_val_dict=cat_val_dict, valsum=valsum)
+
+
+@app.route('/month')
+@login_required
+def month():
 
     cat_list = []
 
@@ -35,7 +81,10 @@ def index():
     for each in cat_list:
 
         spending_list = Spending.query.filter(Spending.user_id == current_user.id,
-                                              Spending.category == each).all()
+                                              Spending.category == each,
+                                              ).all()
+
+    #TODO add month filter to query
 
         cat_val_dict[each] = 0
         for iterator in spending_list:
@@ -44,7 +93,9 @@ def index():
 
     cat_val_dict = dict(sorted(cat_val_dict.items(), key=lambda x: x[1], reverse=True))
 
-    return render_template('index.html', title='Home', cat_val_dict=cat_val_dict, valsum=valsum)
+    #TODO add clearing empty categories
+
+    return render_template('bars.html', title='Home', cat_val_dict=cat_val_dict, valsum=valsum)
 
 
 @app.route('/all')

@@ -4,7 +4,7 @@
 {% if record != None %}
 
 {{ record.category }}:
-{{ record.value }} zł
+{{ '{:.2f} zł'.format(record.value) }}
 {{ record.note }}
 {{ record.timestamp.strftime("%d %B %H:%M") }}
 

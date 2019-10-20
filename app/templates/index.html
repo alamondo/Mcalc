@@ -9,24 +9,25 @@
     <div style="width: 100%; text-align: center;">
     <h1>Hi, {{ current_user.username }}!</h1>
     </div>
-<!--    <hr>-->
-    <div class="bar_display_container">
-    {% for cat, val in cat_val_dict.items() %}
 
-    <a href="{{ url_for('cat_detail', category=cat) }}">
-        <div class="bar_pos bar_wrapper">
-            <div>{{ cat }}</div>
-            <div class="value"> {{ val }} zł</div>
-            <div style="grid-column-start: 1;grid-column-end: 3;">
-                <div class="category_bar">
-                    <div style="width: {{ val / valsum * 100}}%">
-
-                    </div>
-                </div>
+    <div id="nav" style="display: grid;grid-template-columns: 50% 50%;">
+        <a href="{{ url_for('day') }}">
+            <div id="day_button" class="scope_button">
+<!--                  -->
+            Day
             </div>
-        </div>
-    </a>
-
-    {% endfor %}
+        </a>
+        <a href="{{ url_for('month') }}">
+            <div class="scope_button">
+                Month
+            </div>
+        </a>
     </div>
+    <div style="height: 2em;">
+
+    </div>
+
+    <div id="ajax-content">This is default text, which will be replaced</div>
+ 
+
 {% endblock %}
