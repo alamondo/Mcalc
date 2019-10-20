@@ -1,17 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <a href="{{ url_for('add_spending') }}">Add</a>
+
+
+    <a href="{{ url_for('add_spending') }}" class="float">
+        <div class="fa fa-plus my-float">Add</div>
+    </a>
+    <div style="width: 100%; text-align: center;">
     <h1>Hi, {{ current_user.username }}!</h1>
+    </div>
+<!--    <hr>-->
+    <div class="bar_display_container">
     {% for cat, val in cat_val_dict.items() %}
+
     <a href="{{ url_for('cat_detail', category=cat) }}">
-        <div class="category_bar">
-            <div style="width: {{ val / valsum * 100}}%">
+        <div class="bar_pos bar_wrapper">
+            <div>{{ cat }}</div>
+            <div class="value"> {{ val }} zł</div>
+            <div style="grid-column-start: 1;grid-column-end: 3;">
+                <div class="category_bar">
+                    <div style="width: {{ val / valsum * 100}}%">
+
+                    </div>
+                </div>
             </div>
         </div>
-        {{ cat }}:
-        {{ val }} zl
-
     </a>
+
     {% endfor %}
+    </div>
 {% endblock %}

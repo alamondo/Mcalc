@@ -5,12 +5,12 @@
         {% else %}
         <title>calc</title>
         {% endif %}
-        <link rel="stylesheet" href="static/styles.css" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:600&amp;display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Anton&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/static/styles.css" type="text/css">
     </head>
     <body>
-        <div>
-            Calc:
-
+        <div style="box-shadow: 2px 2px 3px #999;">
             <a href="{{ url_for('index') }}">Home</a>
             <a href="{{ url_for('all_records') }}">All</a>
             {% if current_user.is_anonymous %}
@@ -19,7 +19,7 @@
             <a href="{{ url_for('logout') }}">Logout</a>
             {% endif %}
         </div>
-        <hr>
+<!--        <hr>-->
         {% with messages = get_flashed_messages() %}
         {% if messages %}
         <ul>

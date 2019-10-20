@@ -61,15 +61,13 @@ def detail(record_id):
                            record=Spending.query.get(record_id))
 
 
-@app.route('/<category>')
+@app.route('/detail/<category>')
 @login_required
 def cat_detail(category):
     cat_spending = Spending.query.filter(Spending.user_id == current_user.id,
                                          Spending.category == category).all()
-    print('a')
-    # return render_template('cat_detail.html', title='Home',
-    #                        category_list=cat_spending, category_name=category)
-    render_template('all.html')
+    return render_template('cat_detail.html', title='Home',
+                           category_list=cat_spending, category_name=category)
 
 
 @app.route('/delete/<record_id>')
@@ -78,7 +76,7 @@ def delete(record_id):
     record_to_delete = Spending.query.get(record_id)
     db.session.delete(record_to_delete)
     db.session.commit()
-    return redirect(url_for('all'))
+    return redirect(url_for('all_records'))
 
 
 @app.route('/add', methods=['GET', 'POST'])

@@ -1,15 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if record != None %}
 
 {{ record.category }}:
-{{ record.value }} zl
+{{ record.value }} zł
 {{ record.note }}
-{{ record.timestamp }}
+{{ record.timestamp.strftime("%d %B %H:%M") }}
 
 <a href="{{ url_for('delete', record_id=record.id) }}">
 delete
 </a>
 
+{% endif %}
 
 {% endblock %}
