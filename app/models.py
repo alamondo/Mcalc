@@ -21,6 +21,10 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+# class UserCategories(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     value = db.Column(db.String(150))
+
 
 class Spending(db.Model):
     id = db.Column(db.Integer, primary_key=True)

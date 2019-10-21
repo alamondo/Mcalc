@@ -13,31 +13,49 @@
     </head>
     <body>
         <div style="/*box-shadow: 2px 2px 3px #999;*/
-                    display: grid;grid-template-columns: 1fr 1fr 1fr;
-                    height: 2em;">
+                    display: grid;grid-template-columns: 1fr 1fr;
+                    height: 2em;
+                    position: fixed;
+                    width: 100%;
+                    background: white;
+                    padding-bottom: 2%;
+                    ">
             <a href="{{ url_for('index') }}">
                 <div class="menu_button">
                 Home
                 </div>
             </a>
-            <a href="{{ url_for('all_records') }}">
-                <div class="menu_button">
-                All
-                </div>
-            </a>
+<!--            <a href="{{ url_for('all_records') }}">-->
+<!--                <div class="menu_button">-->
+<!--                All-->
+<!--                </div>-->
+<!--            </a>-->
+<!--            {% if current_user.is_anonymous %}-->
+<!--                <a href="{{ url_for('login') }}">-->
+<!--                    <div class="menu_button">-->
+<!--                        Login-->
+<!--                    </div>-->
+<!--                </a>-->
+<!--            {% else %}-->
+<!--                <a href="{{ url_for('logout') }}">-->
+<!--                    <div class="menu_button">-->
+<!--                        Logout-->
+<!--                    </div>-->
+<!--                </a>-->
+<!--            {% endif %}-->
+        <div class="dropdown">
+        <div class="menu_button">Menu</div>
+        <div class="dropdown-content">
+            <a href="{{ url_for('all_records') }}">All</a>
             {% if current_user.is_anonymous %}
-                <a href="{{ url_for('login') }}">
-                    <div class="menu_button">
-                        Login
-                    </div>
-                </a>
+                <a href="{{ url_for('login') }}">Login</a>
             {% else %}
-                <a href="{{ url_for('logout') }}">
-                    <div class="menu_button">
-                        Logout
-                    </div>
-                </a>
+                <a href="{{ url_for('logout') }}">Logout</a>
             {% endif %}
+        </div>
+        </div>
+        </div>
+        <div style="height: 9%;">
         </div>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
