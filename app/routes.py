@@ -81,9 +81,9 @@ def month():
 
         spending_list = Spending.query.filter(Spending.user_id == current_user.id,
                                               Spending.category == each.id,
+                                              extract('month', Spending.timestamp) == datetime.today().month,
+                                              extract('year', Spending.timestamp) == datetime.today().year
                                               ).all()
-
-    #TODO add month filter to query
 
         cat_val_dict[each.value] = 0
         for iterator in spending_list:
@@ -92,7 +92,11 @@ def month():
 
     cat_val_dict = dict(sorted(cat_val_dict.items(), key=lambda x: x[1], reverse=True))
 
-    #TODO add clearing empty categories
+    key_list = list(cat_val_dict.keys())
+
+    for each in key_list:
+        if cat_val_dict[each] == 0:
+            del cat_val_dict[each]
 
     return render_template('bars.html', title='Home', cat_val_dict=cat_val_dict, valsum=valsum)
 
