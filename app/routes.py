@@ -105,12 +105,12 @@ def month():
 @login_required
 def all_records():
 
-    cat_dict = {}
+    cat_dict = []
     for each in current_user.categories:
-        if not (each.value in cat_dict.keys()):
-            cat_dict[each.id] = each.value
+        if not (each.value in cat_dict):
+            cat_dict.append(each.value)
     print(cat_dict)
-    #TODO category name printing
+    # TODO category name printing
     return render_template('all.html', title='Home',
                            user_spending=current_user.spending.order_by(Spending.timestamp.desc()),
                            cat_dict=cat_dict)

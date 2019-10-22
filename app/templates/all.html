@@ -5,13 +5,14 @@
         <div class="fa fa-plus my-float">Add</div>
     </a>
 <!--    <hr>-->
+    {% i = 0 %}
     {% for each in user_spending %}
     <div>
         <a href="{{ url_for('detail', record_id=each.id) }}">
         {% if record != None %}
 
         {{ each.timestamp.strftime("%d %B %H:%M") }}
-        {{ print(cat_dict[str(each.category)]) }}:
+        {{ cat_dict[i] }}:
         {{ each.value }} zł
         {{ each.note }}
 
