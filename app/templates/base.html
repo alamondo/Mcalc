@@ -47,6 +47,7 @@
         <div class="menu_button">Menu</div>
         <div class="dropdown-content">
             <a href="{{ url_for('all_records') }}">All</a>
+            <a href="{{ url_for('add_category') }}">Add Category</a>
             {% if current_user.is_anonymous %}
                 <a href="{{ url_for('login') }}">Login</a>
             {% else %}

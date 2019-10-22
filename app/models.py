@@ -11,6 +11,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     spending = db.relationship('Spending', backref='author', lazy='dynamic')
     income = db.relationship('Income', backref='author', lazy='dynamic')
+    categories = db.relationship('UserCategory', backref='author', lazy='dynamic')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -21,16 +22,19 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-# class UserCategories(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     value = db.Column(db.String(150))
+
+class UserCategory(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    value = db.Column(db.String(150))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
 class Spending(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     value = db.Column(db.Float)
     note = db.Column(db.String(150))
-    category = db.Column(db.String(150))
+    # category = db.Column(db.String(150))
+    category = db.Column(db.Integer)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 

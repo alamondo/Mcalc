@@ -137,6 +137,7 @@ input {
   width: 1em;
   background-color: #eee;
   box-shadow: 2px 2px 3px #999;
+  border-radius: 1em;
 }
 
 
@@ -184,6 +185,7 @@ input {
   color: var(--font-color);
   border: 2px #999 solid;
   text-align: center;
+  text-align-last: center;
 }
 .form_label{
   text-align: center;
@@ -214,6 +216,11 @@ a:hover {
   color: var(--font-color);
 }
 
+select option{
+  font-size: 0.5em;
+}
+
+
 .scope_button{
   background: #0c9;
   text-align: center;
@@ -240,6 +247,11 @@ a:hover {
   border-radius: 0.4em;
   font-size: 1.2em;
 }
+
+.delete_button{
+  background: #ff8e8e;
+}
+
 /* Style The Dropdown Button */
 .dropbtn {
   background-color: #4CAF50;

@@ -11,7 +11,7 @@
         {% if record != None %}
 
         {{ each.timestamp.strftime("%d %B %H:%M") }}
-        {{ each.category }}:
+        {{ print(cat_dict[str(each.category)]) }}:
         {{ each.value }} zł
         {{ each.note }}
 
