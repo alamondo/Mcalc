@@ -109,6 +109,14 @@ def all_records():
                            user_spending=current_user.spending.order_by(Spending.timestamp.desc()))
 
 
+@app.route('/categories')
+@login_required
+def categories():
+
+    return render_template('categories.html', title='Home',
+                           user_categories=current_user.categories)
+
+
 @app.route('/<record_id>', methods=['GET', 'POST'])
 @login_required
 def detail(record_id):

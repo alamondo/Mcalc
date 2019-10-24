@@ -3,7 +3,7 @@
 {% block content %}
     {% if record != None %}
 
-        {{ record.category }}:
+        {{ record.category_name }}:
         {{ '{:.2f} zł'.format(record.value) }}
         {{ record.note }}
         {{ record.timestamp.strftime("%d %B %H:%M") }}

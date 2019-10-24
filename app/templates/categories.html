@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <a href="{{ url_for('add_spending') }}" class="float">
+        <div class="fa fa-plus my-float">Add</div>
+    </a>
+    {% for each in user_categories %}
+    <div>
+<!--        <a href="{{ url_for('detail', record_id=each.id) }}">-->
+        <a href="{{ url_for('cat_detail', category=each.value) }}">
+        {% if record != None %}
+
+        {{ each.value }}
+
+        {% endif %}
+        </a>
+    </div>
+    <hr>
+    {% endfor %}
+{% endblock %}
