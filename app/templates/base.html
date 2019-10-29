@@ -23,24 +23,6 @@
                 Home
                 </div>
             </a>
-<!--            <a href="{{ url_for('all_records') }}">-->
-<!--                <div class="menu_button">-->
-<!--                All-->
-<!--                </div>-->
-<!--            </a>-->
-<!--            {% if current_user.is_anonymous %}-->
-<!--                <a href="{{ url_for('login') }}">-->
-<!--                    <div class="menu_button">-->
-<!--                        Login-->
-<!--                    </div>-->
-<!--                </a>-->
-<!--            {% else %}-->
-<!--                <a href="{{ url_for('logout') }}">-->
-<!--                    <div class="menu_button">-->
-<!--                        Logout-->
-<!--                    </div>-->
-<!--                </a>-->
-<!--            {% endif %}-->
         <div class="dropdown">
         <div class="menu_button">Menu</div>
         <div class="dropdown-content">
@@ -48,8 +30,8 @@
             <hr>
             <a href="{{ url_for('categories') }}">Categories</a>
             <hr>
-<!--            <a href="{{ url_for('add_category') }}">Add Category</a>-->
-<!--            <hr>-->
+            <a href="{{ url_for('income') }}">Income</a>
+            <hr>
             <a href="{{ url_for('profile') }}">Profile</a>
             <hr>
             {% if current_user.is_anonymous %}

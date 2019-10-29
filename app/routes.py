@@ -32,14 +32,17 @@ def index():
 def day():
 
     cat_list = []
+    cat_id_list = []
 
     for each in current_user.spending:
-        if not(each.category in cat_list):
-            cat_list.append(UserCategory.query.filter(UserCategory.id == each.category).first())
+        if not(each.category in cat_id_list):
+            selected_category = UserCategory.query.filter(UserCategory.id == each.category).first()
+            cat_list.append(selected_category)
+            cat_id_list.append(selected_category.id)
 
     cat_val_dict = {}
 
-    valsum = 0
+    val_sum = 0
 
     for each in cat_list:
         spending_list = Spending.query.filter(Spending.user_id == current_user.id,
@@ -50,7 +53,7 @@ def day():
         cat_val_dict[each.value] = 0
         for iterator in spending_list:
             cat_val_dict[each.value] += iterator.value
-            valsum += iterator.value
+            val_sum += iterator.value
 
     cat_val_dict = dict(sorted(cat_val_dict.items(), key=lambda x: x[1], reverse=True))
 
@@ -60,7 +63,7 @@ def day():
         if cat_val_dict[each] == 0:
             del cat_val_dict[each]
 
-    return render_template('bars.html', title='Home', cat_val_dict=cat_val_dict, valsum=valsum)
+    return render_template('bars.html', title='Home', cat_val_dict=cat_val_dict, valsum=val_sum)
 
 
 @app.route('/month')
@@ -68,14 +71,17 @@ def day():
 def month():
 
     cat_list = []
+    cat_id_list = []
 
     for each in current_user.spending:
-        if not(each.category in cat_list):
-            cat_list.append(UserCategory.query.filter(UserCategory.id == each.category).first())
+        if not(each.category in cat_id_list):
+            selected_category = UserCategory.query.filter(UserCategory.id == each.category).first()
+            cat_list.append(selected_category)
+            cat_id_list.append(selected_category.id)
 
     cat_val_dict = {}
 
-    valsum = 0
+    val_sum = 0
 
     for each in cat_list:
 
@@ -88,7 +94,7 @@ def month():
         cat_val_dict[each.value] = 0
         for iterator in spending_list:
             cat_val_dict[each.value] += iterator.value
-            valsum += iterator.value
+            val_sum += iterator.value
 
     cat_val_dict = dict(sorted(cat_val_dict.items(), key=lambda x: x[1], reverse=True))
 
@@ -98,7 +104,7 @@ def month():
         if cat_val_dict[each] == 0:
             del cat_val_dict[each]
 
-    return render_template('bars.html', title='Home', cat_val_dict=cat_val_dict, valsum=valsum)
+    return render_template('bars.html', title='Home', cat_val_dict=cat_val_dict, valsum=val_sum)
 
 
 @app.route('/all')
@@ -122,6 +128,11 @@ def categories():
 def detail(record_id):
     return render_template('detail.html', title='Home',
                            record=Spending.query.get(record_id))
+
+@app.route('/income')
+@login_required
+def income():
+    return render_template('income.html')
 
 
 @app.route('/detail/<category>')

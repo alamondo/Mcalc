@@ -9,7 +9,7 @@
         <a href="{{ url_for('detail', record_id=each.id) }}">
         {% if record != None %}
 
-        {{ each.timestamp.strftime("%d %B %H:%M") }}
+        {{ each.timestamp.strftime("%d %B") }}
         {{ each.category_name }}
         {{ each.value }} zł
         {{ each.note }}

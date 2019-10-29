@@ -10,7 +10,7 @@ $(document).ready(function() {
 
     $("#nav a").click(function() {
 
-        $("#ajax-content").empty().append("<div id='loading'><img src='images/loading.gif' alt='Loading' /></div>");
+        $("#ajax-content").empty().append("<div class='loading'><img src='static/loading.svg' alt='Loading' /></div>");
         $("#nav a").removeClass('current');
         $(this).addClass('current');
 
