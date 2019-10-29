@@ -148,6 +148,12 @@ def add_income_category():
     return render_template('add_cat.html', title='Adding', form=form)
 
 
+@app.route('/add', methods=['GET', 'POST'])
+@login_required
+def add_income():
+    pass
+
+
 @app.route('/detail/<category>')
 @login_required
 def cat_detail(category):
