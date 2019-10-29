@@ -2,7 +2,7 @@ from app import app, db
 from app.forms import LoginForm, AddingForm, CatAddingForm
 from flask import render_template, flash, redirect, url_for
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Spending, UserCategory
+from app.models import User, Spending, UserCategory, UserCategoryIncome
 from datetime import datetime
 from sqlalchemy import extract
 from copy import deepcopy
@@ -129,10 +129,23 @@ def detail(record_id):
     return render_template('detail.html', title='Home',
                            record=Spending.query.get(record_id))
 
+
 @app.route('/income')
 @login_required
 def income():
     return render_template('income.html')
+
+
+@app.route('/add_category', methods=['GET', 'POST'])
+@login_required
+def add_income_category():
+    form = CatAddingForm()
+    if form.validate_on_submit():
+        cat = UserCategoryIncome(user_id=current_user.id, value=form.category.data)
+        db.session.add(cat)
+        db.session.commit()
+        return redirect(url_for('index'))
+    return render_template('add_cat.html', title='Adding', form=form)
 
 
 @app.route('/detail/<category>')
