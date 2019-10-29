@@ -2,16 +2,25 @@
 
 {% block content %}
     {% if record != None %}
-
+        <div class="record_details">
         {{ record.category_name }}:
-        {{ '{:.2f} zł'.format(record.value) }}
-        {{ record.note }}
-        {{ record.timestamp.strftime("%d %B %H:%M") }}
-        <div class="delete_button menu_button">
-            <a href="{{ url_for('delete', record_id=record.id) }}" style="color: white;">
-                delete
-            </a>
         </div>
+        <div class="record_details">
+        {{ '{:.2f} zł'.format(record.value) }}
+        </div>
+        <div class="record_details">
+        {{ record.timestamp.strftime("%d %B %H:%M") }}
+        </div>
+        <div class="record_details">
+        {{ record.note }}
+        </div>
+
+        <a href="{{ url_for('delete', record_id=record.id) }}" style="color: white;">
+            <div class="delete_button menu_button">
+                delete
+            </div>
+        </a>
+
 
     {% endif %}
 

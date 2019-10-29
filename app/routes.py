@@ -138,7 +138,6 @@ def cat_detail(category):
 @app.route('/delete/<record_id>')
 @login_required
 def delete(record_id):
-    print('a')
     record_to_delete = Spending.query.get(record_id)
     db.session.delete(record_to_delete)
     db.session.commit()
@@ -200,3 +199,8 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('landing'))
+
+
+@app.route('/profileinfo')
+def profile():
+    return render_template('profile_info.html', user=current_user)
