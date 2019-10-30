@@ -9,9 +9,20 @@
     </div>
 
     <div class="cat_list_element">
+        <a href="{{ url_for('add_income') }}" style="color: #00cc99;">
+            Add Income
+        </a>
+    </div>
+
+    {% for cat, val in income_dict.items() %}
+    <div class="cat_list_element">
+
+        {{ cat }}
+        {{ val }}
 <!--        <a href="{{ url_for('add_income') }}">-->
 <!--            Add Category-->
 <!--        </a>-->
     </div>
+    {% endfor %}
 
 {% endblock %}

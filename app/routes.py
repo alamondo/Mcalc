@@ -2,7 +2,7 @@ from app import app, db
 from app.forms import LoginForm, AddingForm, CatAddingForm
 from flask import render_template, flash, redirect, url_for
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Spending, UserCategory, UserCategoryIncome
+from app.models import User, Spending, UserCategory, UserCategoryIncome, Income
 from datetime import datetime
 from sqlalchemy import extract
 from copy import deepcopy
@@ -133,7 +133,22 @@ def detail(record_id):
 @app.route('/income')
 @login_required
 def income():
-    return render_template('income.html')
+
+    user_income_categories = UserCategoryIncome.query.filter(UserCategoryIncome.user_id == current_user.id).all()
+    income_dict_t = user_income_categories
+
+    income_dict = {}
+    for each in user_income_categories:
+        cat_sum = 0
+        income_list = Income.query.filter(Income.category == each.id).all()
+        for each_list_element in income_list:
+            cat_sum += each_list_element.value
+
+        income_dict[each.value] = cat_sum
+
+    print(income_dict)
+
+    return render_template('income.html',income_dict=income_dict)
 
 
 @app.route('/add_category', methods=['GET', 'POST'])
@@ -148,10 +163,28 @@ def add_income_category():
     return render_template('add_cat.html', title='Adding', form=form)
 
 
-@app.route('/add', methods=['GET', 'POST'])
+@app.route('/add_i', methods=['GET', 'POST'])
 @login_required
 def add_income():
-    pass
+    form = AddingForm()
+    # TODO select field styling
+    cat_list = []
+    for each in current_user.income_categories:
+        if not (each.value in cat_list):
+            cat_list.append((each.id, each.value))
+
+    form.category.choices = cat_list
+
+    if form.validate_on_submit():
+        category = UserCategoryIncome.query.filter(UserCategoryIncome.user_id == current_user.id,
+                                                   UserCategoryIncome.id == form.category.data,
+                                                   ).first()
+        new_income = Income(user_id=current_user.id, note=form.note.data,
+                            category=category.id, value=float(form.value.data))
+        db.session.add(new_income)
+        db.session.commit()
+        return redirect(url_for('index'))
+    return render_template('add.html', title='Adding', form=form, cat_list=cat_list)
 
 
 @app.route('/detail/<category>')

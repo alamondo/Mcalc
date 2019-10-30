@@ -12,6 +12,7 @@ class User(UserMixin, db.Model):
     spending = db.relationship('Spending', backref='author', lazy='dynamic')
     income = db.relationship('Income', backref='author', lazy='dynamic')
     categories = db.relationship('UserCategory', backref='author', lazy='dynamic')
+    income_categories = db.relationship('UserCategoryIncome', backref='author', lazy='dynamic')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -67,8 +68,8 @@ class Income(db.Model):
 
     def __init__(self, **kwargs):
         super(Income, self).__init__(**kwargs)
-        self.category_name = UserCategory.query.filter(UserCategoryIncome.user_id == self.user_id,
-                                                       UserCategoryIncome.id == self.category).first().value
+        self.category_name = UserCategoryIncome.query.filter(UserCategoryIncome.user_id == self.user_id,
+                                                             UserCategoryIncome.id == self.category).first().value
 
 
 @login.user_loader
