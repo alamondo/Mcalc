@@ -135,7 +135,6 @@ def detail(record_id):
 def income():
 
     user_income_categories = UserCategoryIncome.query.filter(UserCategoryIncome.user_id == current_user.id).all()
-    income_dict_t = user_income_categories
 
     income_dict = {}
     for each in user_income_categories:
@@ -145,8 +144,6 @@ def income():
             cat_sum += each_list_element.value
 
         income_dict[each.value] = cat_sum
-
-    print(income_dict)
 
     return render_template('income.html',income_dict=income_dict)
 

@@ -2,6 +2,8 @@
 
 {% block content %}
 
+    {% include "buttons.html"  %}
+
     <div class="cat_list_element">
         <a href="{{ url_for('add_income_category') }}" style="color: #00cc99;">
             Add Category
@@ -18,10 +20,8 @@
     <div class="cat_list_element">
 
         {{ cat }}
-        {{ val }}
-<!--        <a href="{{ url_for('add_income') }}">-->
-<!--            Add Category-->
-<!--        </a>-->
+        {{ '{:.2f} zł'.format(val) }}
+
     </div>
     {% endfor %}
 

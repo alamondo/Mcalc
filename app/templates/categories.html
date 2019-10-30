@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <a href="{{ url_for('add_spending') }}" class="float">
-        <div class="fa fa-plus my-float">Add</div>
-    </a>
+
+    {% include "buttons.html"  %}
+
     {% for each in user_categories %}
     <div class="cat_list_element">
 <!--        <a href="{{ url_for('detail', record_id=each.id) }}">-->

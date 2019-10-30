@@ -2,9 +2,8 @@
 
 {% block content %}
 
-    <a href="{{ url_for('add_spending') }}" class="float">
-        <div class="fa fa-plus my-float">Add</div>
-    </a>
+    {% include "buttons.html"  %}
+
     <div style="width: 100%; text-align: center;">
     <h1>Hi, {{ current_user.username }}!</h1>
     </div>
