@@ -121,8 +121,26 @@ def month():
 @login_required
 def all_records():
 
+    user_spending = current_user.spending.order_by(Spending.timestamp.desc())
+    dictionary = {}
+    i = 1
+    for each in user_spending:
+        year = each.timestamp.strftime("%Y")
+        month = each.timestamp.strftime("%B")
+        day = each.timestamp.strftime("%d")
+
+        if year not in dictionary.keys():
+            dictionary[year] = {}
+        if month not in dictionary[year].keys():
+            dictionary[year][month] = {}
+        if day not in dictionary[year][month].keys():
+            dictionary[year][month][day] = {}
+
+        dictionary[year][month][day][i] = each
+        i += 1
+
     return render_template('all.html', title='Home',
-                           user_spending=current_user.spending.order_by(Spending.timestamp.desc()))
+                           user_spending=dictionary)
 
 
 @app.route('/categories')

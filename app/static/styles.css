@@ -360,3 +360,24 @@ select option{
 .dropdown:hover .dropbtn {
   background-color: #3e8e41;
 }
+
+.all_view_record{
+  grid-column-start: 2;
+}
+
+.all_view_day{
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+}
+
+.all_view_month{
+
+}
+
+.all_view_year{
+
+}
+
+.all_view_container{
+
+}

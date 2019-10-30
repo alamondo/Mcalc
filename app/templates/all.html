@@ -4,19 +4,46 @@
 
     {% include "buttons.html"  %}
 
-    {% for each in user_spending %}
-    <div>
-        <a href="{{ url_for('detail', record_id=each.id) }}">
-        {% if record != None %}
+    <div class="all_view_container">
 
-        {{ each.timestamp.strftime("%d %B") }}
-        {{ each.category_name }}
-        {{ each.value }} zł
-        {{ each.note }}
+    {% for year in user_spending %}
 
-        {% endif %}
-        </a>
-    </div>
-    <hr>
+        <div class="all_view_year">{{ year }}
+
+        {% for month in user_spending[year] %}
+
+            <div class="all_view_month">{{ month }}
+
+            {% for day in user_spending[year][month] %}
+
+                <div class="all_view_day">{{ day  }}
+
+                {% for record in user_spending[year][month][day] %}
+
+                    <div class="all_view_record">
+                        <a href="{{ url_for('detail', record_id=user_spending[year][month][day][record].id) }}">
+                            {{ user_spending[year][month][day][record].category_name }}:
+                            {{ '{:.2f} zł'.format(user_spending[year][month][day][record].value) }}
+                        </a>
+                        <hr>
+                    </div>
+
+
+                {% endfor %}
+
+                </div>
+                <hr>
+
+            {% endfor %}
+
+            </div>
+
+        {% endfor %}
+
+        </div>
+
     {% endfor %}
+
+    </div>
+
 {% endblock %}
