@@ -1,7 +1,17 @@
 {% block content %}
 
-<a href="{{ url_for('add_spending') }}" class="float">
-    <div class="fa fa-plus my-float">Add</div>
+
+
+<a id="out_button" href="{{ url_for('add_spending') }}" class="float up">
+    <div class="fa fa-plus my-float">Out</div>
 </a>
+
+<a id="in_button" href="{{ url_for('add_income') }}" class="float left">
+    <div class="fa fa-plus my-float">In</div>
+</a>
+
+<div  id="add_button"   class="float">
+    <div class="fa fa-plus my-float">Add</div>
+</div>
 
 {% endblock %}

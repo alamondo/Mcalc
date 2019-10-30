@@ -24,7 +24,17 @@ def landing():
 @app.route('/index')
 @login_required
 def index():
-    return render_template('index.html', title='Home')
+
+    user_income_categories = UserCategoryIncome.query.filter(UserCategoryIncome.user_id == current_user.id).all()
+
+    sum = 0
+
+    for each in user_income_categories:
+        income_list = Income.query.filter(Income.category == each.id).all()
+        for each_list_element in income_list:
+            sum += each_list_element.value
+
+    return render_template('index.html', title='Home', sum=sum)
 
 
 @app.route('/day')
@@ -135,17 +145,18 @@ def detail(record_id):
 def income():
 
     user_income_categories = UserCategoryIncome.query.filter(UserCategoryIncome.user_id == current_user.id).all()
-
+    sum = 0
     income_dict = {}
     for each in user_income_categories:
         cat_sum = 0
         income_list = Income.query.filter(Income.category == each.id).all()
         for each_list_element in income_list:
             cat_sum += each_list_element.value
+            sum += each_list_element.value
 
         income_dict[each.value] = cat_sum
 
-    return render_template('income.html',income_dict=income_dict)
+    return render_template('income.html', income_dict=income_dict, sum=sum)
 
 
 @app.route('/add_category', methods=['GET', 'POST'])

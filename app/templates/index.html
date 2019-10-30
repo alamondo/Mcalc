@@ -5,7 +5,7 @@
     {% include "buttons.html"  %}
 
     <div style="width: 100%; text-align: center;">
-    <h1>Hi, {{ current_user.username }}!</h1>
+        <h1>Hi, {{ current_user.username }}!</h1>
     </div>
 
     <div id="nav" style="display: grid;grid-template-columns: 50% 50%;">
@@ -20,9 +20,23 @@
             </div>
         </a>
     </div>
-    <div style="height: 2em;">
+
+    <div style="height: 1em;">
+    </div>
+
+    <div class="front_page_label">
+        Spending
     </div>
 
     <div id="ajax-content">If you are seeing this, something is no yes</div>
- 
+
+    <div class="front_page_label">
+        Income
+    </div>
+
+    <div class="front_page_label">
+        {{ '{:.2f} zł'.format(sum) }}
+    </div>
+
+
 {% endblock %}

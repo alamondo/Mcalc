@@ -228,8 +228,30 @@ input {
   margin-top: 1em;
 }
 
+
+.up{
+  /* margin-bottom: 100px; */
+  visibility: hidden;
+}
+
+.left{
+  /* margin-right: 100px; */
+  visibility: hidden;
+}
+
+.visible{
+  visibility: visible;
+}
+
+
 .good_day{
   text-align: center;
+}
+
+.front_page_label{
+  text-align: center;
+  height: 2em;
+  font-size: 1.2em;
 }
 
 a:link {
