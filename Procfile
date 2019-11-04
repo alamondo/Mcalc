@@ -1,1 +1,1 @@
-web: bundle exec rails server -p $PORT
+web: flask db upgrade; gunicorn microblog:app
