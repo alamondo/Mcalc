@@ -8,7 +8,7 @@ from flask_debug import Debug
 
 app = Flask(__name__)
 Debug(app)
-app.run(debug=True)
+app.run(threaded=True, port=5000)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
