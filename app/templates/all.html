@@ -20,13 +20,27 @@
 
                 {% for record in user_spending[year][month][day] %}
 
-                    <div class="all_view_record">
-                        <a href="{{ url_for('detail', record_id=user_spending[year][month][day][record].id) }}">
-                            {{ user_spending[year][month][day][record].category_name }}:
-                            {{ '{:.2f} zł'.format(user_spending[year][month][day][record].value) }}
+
+                        <a class="all_view_record" href="{{ url_for('detail', record_id=user_spending[year][month][day][record].id) }}">
+<!--                            <div >-->
+                            <div class="record_category">
+                                {% if record == "daily_sum" %}
+                                    Summary
+                                {% else %}
+                                    {{ user_spending[year][month][day][record].category_name }}
+                                {% endif %}
+                            </div>
+                            <div class="record_value">
+
+                                {% if record == "daily_sum" %}
+                                    {{ '{:.2f} zł'.format(user_spending[year][month][day][record]) }}
+                                {% else %}
+                                    {{ '{:.2f} zł'.format(user_spending[year][month][day][record].value) }}
+                                {% endif %}
+                            </div>
+<!--                        </div>-->
                         </a>
-                        <hr>
-                    </div>
+
 
 
                 {% endfor %}
@@ -45,5 +59,7 @@
     {% endfor %}
 
     </div>
+
+    <div style="height: 200px;"></div>
 
 {% endblock %}

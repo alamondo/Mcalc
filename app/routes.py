@@ -139,6 +139,16 @@ def all_records():
         dictionary[year][month][day][i] = each
         i += 1
 
+    for year in dictionary:
+        for month in dictionary[year]:
+            for day in dictionary[year][month]:
+                day_sum = 0
+                for record in dictionary[year][month][day]:
+                    selected = dictionary[year][month][day][record]
+                    day_sum += float(selected.value)
+
+                dictionary[year][month][day]['daily_sum'] = day_sum
+
     return render_template('all.html', title='Home',
                            user_spending=dictionary)
 
@@ -177,7 +187,7 @@ def income():
     return render_template('income.html', income_dict=income_dict, sum=sum)
 
 
-@app.route('/add_category', methods=['GET', 'POST'])
+@app.route('/add_income_category', methods=['GET', 'POST'])
 @login_required
 def add_income_category():
     form = CatAddingForm()
