@@ -7,7 +7,7 @@ from flask_debug import Debug
 
 
 app = Flask(__name__)
-Debug(app)
+# Debug(app)
 app.run(threaded=True, port=5000)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
