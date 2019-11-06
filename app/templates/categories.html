@@ -5,17 +5,25 @@
     {% include "buttons.html"  %}
 
     {% for each in user_categories %}
+    <div class="cat_list_element_wrapper">
+        <a href="{{ url_for('cat_detail', category=each.value) }}">
+            <div class="cat_list_element">
+                <div>
+                {% if record != None %}
 
-    <a href="{{ url_for('cat_detail', category=each.value) }}">
-        <div class="cat_list_element">
-            {% if record != None %}
+                {{ each.value }}
 
-            {{ each.value }}
+                {% endif %}
+                </div>
 
-            {% endif %}
-        </div>
-    </a>
-
+            </div>
+        </a>
+        <a href="{{ url_for('cat_delete', category_id=each.id) }}">
+            <div class="cat_delete_btn">
+                Delete
+            </div>
+        </a>
+    </div>
     <hr>
 
     {% endfor %}

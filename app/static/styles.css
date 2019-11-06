@@ -401,3 +401,14 @@ select option{
 .all_view_container{
 
 }
+
+.cat_list_element_wrapper{
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+}
+
+.cat_delete_btn{
+  color: red;
+  text-align: center;
+  padding-top: 5%;
+}

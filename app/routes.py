@@ -243,6 +243,18 @@ def delete(record_id):
     return redirect(url_for('all_records'))
 
 
+@app.route('/cat_delete/<category_id>')
+@login_required
+def cat_delete(category_id):
+
+    record_to_delete = UserCategory.query.get(category_id)
+    print(record_to_delete)
+    db.session.delete(record_to_delete)
+    db.session.commit()
+
+    return redirect(url_for('index'))
+
+
 @app.route('/add', methods=['GET', 'POST'])
 @login_required
 def add_spending():
@@ -303,6 +315,7 @@ def logout():
 @app.route('/profileinfo')
 def profile():
     return render_template('profile_info.html', user=current_user)
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
