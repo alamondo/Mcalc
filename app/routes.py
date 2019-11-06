@@ -64,7 +64,10 @@ def index():
             cat_val_dict[each.value] += iterator.value
             val_sum += iterator.value
 
-        balance = sum - val_sum
+    balance = 0
+
+    balance = sum - val_sum
+
 
     return render_template('index.html', title='Home', sum=sum, balance=balance)
 
