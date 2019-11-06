@@ -68,7 +68,6 @@ def index():
 
     balance = sum - val_sum
 
-
     return render_template('index.html', title='Home', sum=sum, balance=balance)
 
 
