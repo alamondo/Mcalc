@@ -2,18 +2,33 @@
 
 {% block content %}
 
-    <h1>{{ category_name }}</h1>
+    <div class="cat_detail_page_wrapper">
+        <div class="cat_name_wrapper">
+            <h1>{{ category_name }}</h1>
+        </div>
 
-    {% for record in category_list %}
-        {% if record != None %}
-
-            <a href="{{ url_for('detail', record_id=record.id) }}">
-                {{ record.timestamp.strftime("%d %B %H:%M") }}:
-                {{ '{:.2f} zł'.format(record.value) }}
-                {{ record.note }}
+        <div class="cat_detail_btn_wrapper">
+            <a href="{{ url_for('cat_delete', category_id=cat_id) }}">
+                <div class="delete_button menu_button cat_delete_btn">
+                    Delete
+                </div>
             </a>
+        </div>
 
-            <hr>
-        {% endif %}
-    {% endfor %}
+        {% for record in category_list %}
+            {% if record != None %}
+                <div class="record_value_cat_detail_view">
+                    <a href="{{ url_for('detail', record_id=record.id) }}">
+                        {{ record.timestamp.strftime("%d %B %H:%M") }}:
+                        {{ '{:.2f} zł'.format(record.value) }}
+                        {{ record.note }}
+                    </a>
+                    <hr>
+                </div>
+
+            {% endif %}
+        {% endfor %}
+
+    </div>
+
 {% endblock %}

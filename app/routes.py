@@ -264,8 +264,11 @@ def cat_detail(category):
                                          Spending.category == UserCategory.query.filter(
                                                                     UserCategory.value == category
                                                                     ).first().id)
+
+    cat_id = UserCategory.query.filter(UserCategory.value == category).first().id
+
     return render_template('cat_detail.html', title='Home',
-                           category_list=cat_spending, category_name=category)
+                           category_list=cat_spending, category_name=category, cat_id=cat_id)
 
 
 @app.route('/delete/<record_id>')

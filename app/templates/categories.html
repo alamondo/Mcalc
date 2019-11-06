@@ -5,7 +5,7 @@
     {% include "buttons.html"  %}
 
     {% for each in user_categories %}
-    <div class="cat_list_element_wrapper">
+<!--    <div class="cat_list_element_wrapper">-->
         <a href="{{ url_for('cat_detail', category=each.value) }}">
             <div class="cat_list_element">
                 <div>
@@ -18,12 +18,12 @@
 
             </div>
         </a>
-        <a href="{{ url_for('cat_delete', category_id=each.id) }}">
-            <div class="delete_button menu_button cat_delete_btn">
-                Delete
-            </div>
-        </a>
-    </div>
+<!--        <a href="{{ url_for('cat_delete', category_id=each.id) }}">-->
+<!--            <div class="delete_button menu_button cat_delete_btn">-->
+<!--                Delete-->
+<!--            </div>-->
+<!--        </a>-->
+<!--    </div>-->
     <hr>
 
     {% endfor %}

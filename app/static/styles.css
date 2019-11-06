@@ -390,12 +390,12 @@ select option{
 }
 
 .all_view_month{
-  font-size: 2em
-
+  font-size: 2em;
+  text-align: center;
 }
 
 .all_view_year{
-
+  text-align: center;
 }
 
 .all_view_container{
@@ -409,5 +409,21 @@ select option{
 
 .cat_delete_btn{
   font-size: 1em;
+  margin-top: 24%;
   /* padding-top: 5%; */
+}
+
+.record_value_cat_detail_view{
+  text-align: center;
+  grid-column-end: 3;
+  grid-column-start: 1;
+}
+
+.cat_detail_page_wrapper{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.cat_name_wrapper{
+  text-align: center;
 }
