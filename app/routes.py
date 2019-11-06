@@ -25,16 +25,48 @@ def landing():
 @login_required
 def index():
 
-    user_income_categories = UserCategoryIncome.query.filter(UserCategoryIncome.user_id == current_user.id).all()
+    user_income_categories = UserCategoryIncome.query.filter(UserCategoryIncome.user_id == current_user.id,
+                                                             ).all()
 
     sum = 0
 
     for each in user_income_categories:
-        income_list = Income.query.filter(Income.category == each.id).all()
+        income_list = Income.query.filter(Income.category == each.id,
+                                          extract('month', Spending.timestamp) == datetime.today().month,
+                                          extract('year', Spending.timestamp) == datetime.today().year
+                                          ).all()
         for each_list_element in income_list:
             sum += each_list_element.value
 
-    return render_template('index.html', title='Home', sum=sum)
+    cat_list = []
+    cat_id_list = []
+
+    for each in current_user.spending:
+        if not (each.category in cat_id_list):
+            selected_category = UserCategory.query.filter(UserCategory.id == each.category).first()
+            cat_list.append(selected_category)
+            cat_id_list.append(selected_category.id)
+
+    cat_val_dict = {}
+
+    val_sum = 0
+
+    for each in cat_list:
+
+        spending_list = Spending.query.filter(Spending.user_id == current_user.id,
+                                              Spending.category == each.id,
+                                              extract('month', Spending.timestamp) == datetime.today().month,
+                                              extract('year', Spending.timestamp) == datetime.today().year
+                                              ).all()
+
+        cat_val_dict[each.value] = 0
+        for iterator in spending_list:
+            cat_val_dict[each.value] += iterator.value
+            val_sum += iterator.value
+
+        balance = sum - val_sum
+
+    return render_template('index.html', title='Home', sum=sum, balance=balance)
 
 
 @app.route('/day')
