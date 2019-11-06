@@ -6,7 +6,7 @@
         {{ form.hidden_tag() }}
         <p class="form_label">
             {{ form.value.label(class_="form_label") }}<br>
-            {{ form.value(class_="form_input", size=32) }}<br>
+            {{ form.value(class_="form_input", size=32, autocomplete="off") }}<br>
         </p>
         <p class="form_label">
             {{ form.category.label(class_="form_label") }}<br>
@@ -15,7 +15,7 @@
         </p>
         <p class="form_label">
             {{ form.note.label(class_="form_label") }}<br>
-            {{ form.note(class_="form_input", size=32) }}<br>
+            {{ form.note(class_="form_input", size=32, autocomplete="off") }}<br>
         </p>
         <p style="margin:4%;">{{ form.submit(class_="float add_button") }}</p>
     </form>
