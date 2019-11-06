@@ -21,7 +21,7 @@ class AddingForm(FlaskForm):
 
 
 class CatAddingForm(FlaskForm):
-    category = StringField('Category')
+    category = StringField('Category', validators=[DataRequired()])
     submit = SubmitField('Add')
 
 
