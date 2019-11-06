@@ -404,11 +404,10 @@ select option{
 
 .cat_list_element_wrapper{
   display: grid;
-  grid-template-columns: 4fr 1fr;
+  grid-template-columns: 3fr 1fr;
 }
 
 .cat_delete_btn{
-  color: red;
-  text-align: center;
-  padding-top: 5%;
+  font-size: 1em;
+  /* padding-top: 5%; */
 }
