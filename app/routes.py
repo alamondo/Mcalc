@@ -14,6 +14,12 @@ from flask import Flask
 # app = Flask(__name__)
 
 
+def redirect_url(default='index'):
+    return request.args.get('next') or \
+           request.referrer or \
+           url_for(default)
+
+
 @app.route('/')
 def landing():
     if current_user.is_authenticated:
@@ -324,7 +330,7 @@ def add_category():
         cat = UserCategory(user_id=current_user.id, value=form.category.data)
         db.session.add(cat)
         db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('categories'))
     return render_template('add_cat.html', title='Adding', form=form)
 
 
