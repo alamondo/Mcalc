@@ -1,6 +1,7 @@
+import os
 from app import app, db
 from app.forms import LoginForm, AddingForm, CatAddingForm, RegistrationForm
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, send_from_directory
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Spending, UserCategory, UserCategoryIncome, Income
 from datetime import datetime
@@ -18,6 +19,12 @@ def redirect_url(default='index'):
     return request.args.get('next') or \
            request.referrer or \
            url_for(default)
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static/icon'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 @app.route('/')
@@ -309,8 +316,10 @@ def add_spending():
             cat_list.append((each.id, each.value))
 
     form.category.choices = cat_list
-
+    print(form.errors)
     if form.validate_on_submit():
+        # time = form.time.value
+        # print(time)
         category = UserCategory.query.filter(UserCategory.user_id == current_user.id,
                                              UserCategory.id == form.category.data,
                                              ).first()

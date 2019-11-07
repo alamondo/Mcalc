@@ -1,7 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
-from wtforms.validators import DataRequired
+from wtforms import Form, DateTimeField
+# from wtforms_components import TimeField
+from wtforms.validators import ValidationError, Email, EqualTo
+from wtforms.validators import DataRequired, Optional
 from app.models import User
 
 
@@ -15,6 +17,7 @@ class LoginForm(FlaskForm):
 class AddingForm(FlaskForm):
     note = StringField('Note')
     value = IntegerField('Value', validators=[DataRequired()])
+    time = DateTimeField('Time', validators=[Optional()])
     # category = StringField('Category')
     category = SelectField('Category', choices=[], coerce=int)
     submit = SubmitField('Add')
