@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 style="text-align: center;">Add</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        {{ form.csrf_token }}
+        <p class="form_label">
+            {{ form.value.label(class_="form_label") }}<br>
+            {{ form.value(class_="form_input", size=32, autocomplete="off", type="number") }}<br>
+        </p>
+        <p class="form_label">
+            {{ form.category.label(class_="form_label") }}<br>
+            {{ form.category(class_="form_input", size=1) }}<br>
+        </p>
+        <p class="form_label">
+            {{ form.note.label(class_="form_label") }}<br>
+            {{ form.note(class_="form_input", size=32, autocomplete="off") }}<br>
+        </p>
+        <p class="form_label">
+            {{ form.time.label(class_="form_label") }}<br>
+            {{ form.time(class_="form_input", size=32, autocomplete="off", type="datetime-local") }}<br>
+        </p>
+        <p style="margin:4%;">{{ form.submit(class_="float add_button") }}</p>
+    </form>
+{% endblock %}

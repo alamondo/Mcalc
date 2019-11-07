@@ -344,6 +344,45 @@ def add_category():
     return render_template('add_cat.html', title='Adding', form=form)
 
 
+@app.route('/edit/<record_id>', methods=['GET', 'POST'])
+@login_required
+def edit_record(record_id):
+
+    record_to_edit = Spending.query.get(record_id)
+
+    form = AddingForm()
+
+    if form.validate_on_submit():
+        category = UserCategory.query.filter(UserCategory.user_id == current_user.id,
+                                             UserCategory.id == form.category.data,
+                                             ).first()
+        print(form.value.data)
+        record_to_edit = Spending.query.get(record_id)
+        record_to_edit.note = form.note.data
+        record_to_edit.category = category.id
+        record_to_edit.value = form.value.data
+        record_to_edit.timestamp = form.time.data
+        db.session.flush()
+        db.session.commit()
+        return redirect(url_for('index'))
+    else:
+        #TODO to nie działa nic a nic kurwa
+        print('0')
+        cat_list = []
+        for each in current_user.categories:
+            if not (each.value in cat_list):
+                cat_list.append((each.id, each.value))
+
+        form.category.choices = cat_list
+        form.time.data = record_to_edit.timestamp
+        form.value.default = int(record_to_edit.value)
+        form.note.data = record_to_edit.note
+        form.category.data = record_to_edit.category
+        form.process()
+
+    return render_template('edit_record.html', title='Adding', form=form, cat_list=cat_list)
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:

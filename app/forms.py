@@ -23,7 +23,6 @@ class AddingForm(FlaskForm):
                          default=datetime.today,
                          format="%Y-%m-%dT%H:%M:%S"
                          )
-    # category = StringField('Category')
     category = SelectField('Category', choices=[], coerce=int)
     submit = SubmitField('Add')
 
