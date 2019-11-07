@@ -317,15 +317,15 @@ def add_spending():
             cat_list.append((each.id, each.value))
 
     form.category.choices = cat_list
-    print(form.errors)
+    # print(form.time.data)
+    # print(datetime.today())
     if form.validate_on_submit():
-        # time = form.time.value
-        # print(time)
         category = UserCategory.query.filter(UserCategory.user_id == current_user.id,
                                              UserCategory.id == form.category.data,
                                              ).first()
         spend = Spending(user_id=current_user.id, note=form.note.data,
-                         category=category.id, value=float(form.value.data))
+                         category=category.id, value=float(form.value.data),
+                         timestamp = form.time.data)
         db.session.add(spend)
         db.session.commit()
         return redirect(url_for('index'))

@@ -5,6 +5,7 @@ from wtforms import Form, DateTimeField
 from wtforms.validators import ValidationError, Email, EqualTo
 from wtforms.validators import DataRequired, Optional
 from app.models import User
+from datetime import datetime
 
 
 class LoginForm(FlaskForm):
@@ -17,7 +18,11 @@ class LoginForm(FlaskForm):
 class AddingForm(FlaskForm):
     note = StringField('Note')
     value = IntegerField('Value', validators=[DataRequired()])
-    time = DateTimeField('Time', validators=[Optional()])
+    time = DateTimeField('Time',
+                         validators=[Optional()],
+                         default=datetime.today,
+                         format="%Y-%m-%dT%H:%M:%S"
+                         )
     # category = StringField('Category')
     category = SelectField('Category', choices=[], coerce=int)
     submit = SubmitField('Add')
