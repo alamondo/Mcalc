@@ -57,8 +57,9 @@ def index():
     for each in current_user.spending:
         if not (each.category in cat_id_list):
             selected_category = UserCategory.query.filter(UserCategory.id == each.category).first()
-            cat_list.append(selected_category)
-            cat_id_list.append(selected_category.id)
+            if selected_category is not None:
+                cat_list.append(selected_category)
+                cat_id_list.append(selected_category.id)
 
     cat_val_dict = {}
 
