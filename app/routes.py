@@ -12,9 +12,7 @@ from flask import request
 def redirect_url(default='index'):
     print(request.args)
     print(request.referrer)
-    return request.args.get('next') or \
-           request.referrer or \
-           url_for(default)
+    return request.args.get('next') or request.referrer or url_for(default)
 
 
 @app.route('/favicon.ico')
@@ -37,7 +35,7 @@ def index():
     user_income_categories = UserCategoryIncome.query.filter(UserCategoryIncome.user_id == current_user.id,
                                                              ).all()
 
-    sum = 0
+    income_sum = 0
 
     for each in user_income_categories:
         income_list = Income.query.filter(Income.category == each.id,
@@ -45,7 +43,7 @@ def index():
                                           extract('year', Spending.timestamp) == datetime.today().year
                                           ).all()
         for each_list_element in income_list:
-            sum += each_list_element.value
+            income_sum += each_list_element.value
 
     cat_list = []
     cat_id_list = []
@@ -74,11 +72,9 @@ def index():
             cat_val_dict[each.value] += iterator.value
             val_sum += iterator.value
 
-    balance = 0
+    balance = income_sum - val_sum
 
-    balance = sum - val_sum
-
-    return render_template('index.html', title='Home', sum=sum, balance=balance)
+    return render_template('index.html', title='Home', sum=income_sum, balance=balance)
 
 
 @app.route('/day')
@@ -169,29 +165,29 @@ def all_records():
     dictionary = {}
     i = 1
     for each in user_spending:
-        year = each.timestamp.strftime("%Y")
-        month = each.timestamp.strftime("%B")
-        day = each.timestamp.strftime("%d")
+        timestamp_year = each.timestamp.strftime("%Y")
+        timestamp_month = each.timestamp.strftime("%B")
+        timestamp_day = each.timestamp.strftime("%d")
 
-        if year not in dictionary.keys():
-            dictionary[year] = {}
-        if month not in dictionary[year].keys():
-            dictionary[year][month] = {}
-        if day not in dictionary[year][month].keys():
-            dictionary[year][month][day] = {}
+        if timestamp_year not in dictionary.keys():
+            dictionary[timestamp_year] = {}
+        if timestamp_month not in dictionary[timestamp_year].keys():
+            dictionary[timestamp_year][timestamp_month] = {}
+        if timestamp_day not in dictionary[timestamp_year][timestamp_month].keys():
+            dictionary[timestamp_year][timestamp_month][timestamp_day] = {}
 
-        dictionary[year][month][day][i] = each
+        dictionary[timestamp_year][timestamp_month][timestamp_day][i] = each
         i += 1
 
-    for year in dictionary:
-        for month in dictionary[year]:
-            for day in dictionary[year][month]:
+    for timestamp_year in dictionary:
+        for timestamp_month in dictionary[timestamp_year]:
+            for timestamp_day in dictionary[timestamp_year][timestamp_month]:
                 day_sum = 0
-                for record in dictionary[year][month][day]:
-                    selected = dictionary[year][month][day][record]
+                for record in dictionary[timestamp_year][timestamp_month][timestamp_day]:
+                    selected = dictionary[timestamp_year][timestamp_month][timestamp_day][record]
                     day_sum += float(selected.value)
 
-                dictionary[year][month][day]['daily_sum'] = day_sum
+                dictionary[timestamp_year][timestamp_month][timestamp_day]['daily_sum'] = day_sum
 
     return render_template('all.html', title='Home',
                            user_spending=dictionary)
@@ -217,18 +213,18 @@ def detail(record_id):
 def income():
 
     user_income_categories = UserCategoryIncome.query.filter(UserCategoryIncome.user_id == current_user.id).all()
-    sum = 0
+    income_sum = 0
     income_dict = {}
     for each in user_income_categories:
         cat_sum = 0
         income_list = Income.query.filter(Income.category == each.id).all()
         for each_list_element in income_list:
             cat_sum += each_list_element.value
-            sum += each_list_element.value
+            income_sum += each_list_element.value
 
         income_dict[each.value] = cat_sum
 
-    return render_template('income.html', income_dict=income_dict, sum=sum)
+    return render_template('income.html', income_dict=income_dict, sum=income_sum)
 
 
 @app.route('/add_income_category', methods=['GET', 'POST'])
@@ -247,7 +243,6 @@ def add_income_category():
 @login_required
 def add_income():
     form = AddingForm()
-    # TODO select field styling
     cat_list = []
     for each in current_user.income_categories:
         if not (each.value in cat_list):
