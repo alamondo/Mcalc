@@ -334,6 +334,8 @@ def add_spending():
 
     form.category.choices = cat_list
 
+    print(form.time.data.second)
+
     if form.validate_on_submit():
         category = UserCategory.query.filter(UserCategory.user_id == current_user.id,
                                              UserCategory.id == form.category.data,
