@@ -279,7 +279,9 @@ def cat_detail(category):
     cat_spending = Spending.query.filter(Spending.user_id == current_user.id,
                                          Spending.category == UserCategory.query.filter(
                                                                     UserCategory.value == category
-                                                                    ).first().id)
+                                                                    ).first().id).order_by(Spending.timestamp.desc())
+
+    # user_spending = current_user.spending.order_by(Spending.timestamp.desc())
 
     cat_id = UserCategory.query.filter(UserCategory.value == category).first().id
 

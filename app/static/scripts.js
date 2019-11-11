@@ -11,8 +11,7 @@ $(document).ready(function() {
     $(".scope_button")
       .not(this)
       .removeClass("activated");
-    $(this).addClass("activated"); //eventually removeClass of some previous class
-    // other stuff
+    $(this).addClass("activated");
   });
 
   function myMove() {
@@ -95,17 +94,19 @@ $(document).ready(function() {
     return false;
   });
 
-  $("#ajax-content")
-    .empty()
-    .append(
-      "<div class='loading'><img src='static/loading.svg' alt='Loading' /></div>"
-    );
-  $.ajax({
-    url: "day",
-    success: function(html) {
-      $("#ajax-content")
-        .empty()
-        .append(html);
-    }
-  });
+  if ((window.location.href).search('index') != -1) {
+    ("#ajax-content")
+      .empty()
+      .append(
+        "<div class='loading'><img src='static/loading.svg' alt='Loading' /></div>"
+      );
+    $.ajax({
+      url: "day",
+      success: function(html) {
+        $("#ajax-content")
+          .empty()
+          .append(html);
+      }
+    });
+  }
 });

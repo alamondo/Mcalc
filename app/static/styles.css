@@ -427,3 +427,7 @@ select option{
 .cat_name_wrapper{
   text-align: center;
 }
+
+.datetime{
+  padding-left: 29%;
+}
