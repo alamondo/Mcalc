@@ -16,6 +16,8 @@ from flask import Flask
 
 
 def redirect_url(default='index'):
+    print(request.args)
+    print(request.referrer)
     return request.args.get('next') or \
            request.referrer or \
            url_for(default)
@@ -310,7 +312,9 @@ def cat_delete(category_id):
 @login_required
 def add_spending():
     form = AddingForm()
-    #TODO select field styling
+
+    prev_url = redirect_url()
+
     cat_list = []
     for each in current_user.categories:
         if not(each.value in cat_list):
@@ -319,16 +323,21 @@ def add_spending():
     form.category.choices = cat_list
     # print(form.time.data)
     # print(datetime.today())
+    # form = ContactForm(request.form)
+
     if form.validate_on_submit():
         category = UserCategory.query.filter(UserCategory.user_id == current_user.id,
                                              UserCategory.id == form.category.data,
                                              ).first()
         spend = Spending(user_id=current_user.id, note=form.note.data,
                          category=category.id, value=float(form.value.data),
-                         timestamp = form.time.data)
+                         timestamp=form.time.data)
         db.session.add(spend)
         db.session.commit()
         return redirect(url_for('index'))
+    else:
+        print(prev_url)
+
     return render_template('add.html', title='Adding', form=form, cat_list=cat_list)
 
 
@@ -352,11 +361,25 @@ def edit_record(record_id):
 
     form = AddingForm()
 
+    cat_list = []
+    for each in current_user.categories:
+        if not (each.value in cat_list):
+            cat_list.append((each.id, each.value))
+
+    form.category.choices = cat_list
+
+    if request.method == "GET":
+
+        form.time.default = record_to_edit.timestamp
+        form.value.default = int(record_to_edit.value)
+        form.note.default = record_to_edit.note
+        form.category.default = record_to_edit.category
+        form.process()
+
     if form.validate_on_submit():
         category = UserCategory.query.filter(UserCategory.user_id == current_user.id,
                                              UserCategory.id == form.category.data,
                                              ).first()
-        print(form.value.data)
         record_to_edit = Spending.query.get(record_id)
         record_to_edit.note = form.note.data
         record_to_edit.category = category.id
@@ -365,20 +388,6 @@ def edit_record(record_id):
         db.session.flush()
         db.session.commit()
         return redirect(url_for('index'))
-    else:
-        #TODO to nie działa nic a nic kurwa
-        print('0')
-        cat_list = []
-        for each in current_user.categories:
-            if not (each.value in cat_list):
-                cat_list.append((each.id, each.value))
-
-        form.category.choices = cat_list
-        form.time.data = record_to_edit.timestamp
-        form.value.default = int(record_to_edit.value)
-        form.note.data = record_to_edit.note
-        form.category.data = record_to_edit.category
-        form.process()
 
     return render_template('edit_record.html', title='Adding', form=form, cat_list=cat_list)
 
