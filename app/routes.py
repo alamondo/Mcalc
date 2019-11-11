@@ -6,13 +6,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Spending, UserCategory, UserCategoryIncome, Income
 from datetime import datetime
 from sqlalchemy import extract
-from copy import deepcopy
 from flask import request
-from werkzeug.urls import url_parse
-
-from flask import Flask
-
-# app = Flask(__name__)
 
 
 def redirect_url(default='index'):
@@ -303,7 +297,6 @@ def delete(record_id):
 def cat_delete(category_id):
 
     record_to_delete = UserCategory.query.get(category_id)
-    print(record_to_delete)
     db.session.delete(record_to_delete)
     db.session.commit()
 
@@ -315,17 +308,12 @@ def cat_delete(category_id):
 def add_spending():
     form = AddingForm()
 
-    prev_url = redirect_url()
-
     cat_list = []
     for each in current_user.categories:
         if not(each.value in cat_list):
             cat_list.append((each.id, each.value))
 
     form.category.choices = cat_list
-    # print(form.time.data)
-    # print(datetime.today())
-    # form = ContactForm(request.form)
 
     if form.validate_on_submit():
         category = UserCategory.query.filter(UserCategory.user_id == current_user.id,
@@ -337,8 +325,6 @@ def add_spending():
         db.session.add(spend)
         db.session.commit()
         return redirect(url_for('index'))
-    else:
-        print(prev_url)
 
     return render_template('add.html', title='Adding', form=form, cat_list=cat_list)
 
