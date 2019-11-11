@@ -95,7 +95,7 @@ $(document).ready(function() {
   });
 
   if ((window.location.href).search('index') != -1) {
-    ("#ajax-content")
+    $("#ajax-content")
       .empty()
       .append(
         "<div class='loading'><img src='static/loading.svg' alt='Loading' /></div>"

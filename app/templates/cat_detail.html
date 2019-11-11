@@ -15,20 +15,60 @@
             </a>
         </div>
 
-        {% for record in category_list %}
-            {% if record != None %}
-                <div class="record_value_cat_detail_view">
-                    <a href="{{ url_for('detail', record_id=record.id) }}">
-                        {{ record.timestamp.strftime("%d %B %H:%M") }}:
-                        {{ '{:.2f} zł'.format(record.value) }}
-                        {{ record.note }}
-                    </a>
-                    <hr>
-                </div>
+    </div>
 
-            {% endif %}
+    <div class="all_view_container">
+
+    {% for year in user_spending %}
+
+        <div class="all_view_year">{{ year }}
+
+        {% for month in user_spending[year] %}
+
+            <div class="all_view_month">{{ month }}
+
+            {% for day in user_spending[year][month] %}
+
+                <div class="all_view_day">{{ day  }}
+
+                {% for record in user_spending[year][month][day] %}
+
+
+                        <a class="all_view_record" href="{{ url_for('detail', record_id=user_spending[year][month][day][record].id) }}">
+<!--                            <div >-->
+                            <div class="record_category">
+                                {% if record == "daily_sum" %}
+                                    Summary
+                                {% else %}
+                                    {{ user_spending[year][month][day][record].note }}
+                                {% endif %}
+                            </div>
+                            <div class="record_value">
+
+                                {% if record == "daily_sum" %}
+                                    {{ '{:.2f} zł'.format(user_spending[year][month][day][record]) }}
+                                {% else %}
+                                    {{ '{:.2f} zł'.format(user_spending[year][month][day][record].value) }}
+                                {% endif %}
+                            </div>
+<!--                        </div>-->
+                        </a>
+
+
+
+                {% endfor %}
+
+                </div>
+                <hr>
+
+            {% endfor %}
+
+            </div>
+
         {% endfor %}
 
-    </div>
+        </div>
+
+    {% endfor %}
 
 {% endblock %}

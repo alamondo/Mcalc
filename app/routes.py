@@ -10,8 +10,7 @@ from flask import request
 
 
 def redirect_url(default='index'):
-    print(request.args)
-    print(request.referrer)
+
     return request.args.get('next') or request.referrer or url_for(default)
 
 
@@ -265,17 +264,42 @@ def add_income():
 @app.route('/detail/<category>')
 @login_required
 def cat_detail(category):
-    cat_spending = Spending.query.filter(Spending.user_id == current_user.id,
-                                         Spending.category == UserCategory.query.filter(
+    user_spending = Spending.query.filter(Spending.user_id == current_user.id,
+                                          Spending.category == UserCategory.query.filter(
                                                                     UserCategory.value == category
                                                                     ).first().id).order_by(Spending.timestamp.desc())
 
-    # user_spending = current_user.spending.order_by(Spending.timestamp.desc())
+    dictionary = {}
+    i = 1
+    for each in user_spending:
+        timestamp_year = each.timestamp.strftime("%Y")
+        timestamp_month = each.timestamp.strftime("%B")
+        timestamp_day = each.timestamp.strftime("%d")
+
+        if timestamp_year not in dictionary.keys():
+            dictionary[timestamp_year] = {}
+        if timestamp_month not in dictionary[timestamp_year].keys():
+            dictionary[timestamp_year][timestamp_month] = {}
+        if timestamp_day not in dictionary[timestamp_year][timestamp_month].keys():
+            dictionary[timestamp_year][timestamp_month][timestamp_day] = {}
+
+        dictionary[timestamp_year][timestamp_month][timestamp_day][i] = each
+        i += 1
+
+    for timestamp_year in dictionary:
+        for timestamp_month in dictionary[timestamp_year]:
+            for timestamp_day in dictionary[timestamp_year][timestamp_month]:
+                day_sum = 0
+                for record in dictionary[timestamp_year][timestamp_month][timestamp_day]:
+                    selected = dictionary[timestamp_year][timestamp_month][timestamp_day][record]
+                    day_sum += float(selected.value)
+
+                dictionary[timestamp_year][timestamp_month][timestamp_day]['daily_sum'] = day_sum
 
     cat_id = UserCategory.query.filter(UserCategory.value == category).first().id
 
     return render_template('cat_detail.html', title='Home',
-                           category_list=cat_spending, category_name=category, cat_id=cat_id)
+                           category_list=user_spending, category_name=category, cat_id=cat_id, user_spending=dictionary)
 
 
 @app.route('/delete/<record_id>')
