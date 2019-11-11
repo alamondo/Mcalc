@@ -12,7 +12,7 @@
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Opera and Firefox */
 }
-}
+
 /* 2b1c1c */
 *:focus {
     outline: none;
